@@ -1,0 +1,24 @@
+---
+#ansy playbook start with three dash
+-
+###this minus in yaml indicate a list of items. the play contains a list of play
+  hosts: [nodes]
+  vars:
+    motd_redhat: "welcome to redhat linux\n"
+    motd_ubuntu: "welcome to ubuntu linux \n"
+  
+  tasks:
+    - name: install epel release
+      dnf: 
+        name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+        update_cache: yes
+        state: present #present or absent
+      when: ansible_distribution == "RedHat"
+    - name: install nginx
+      package: 
+        name: nginx
+        state: latest
+    - name: restart nginx server
+      service:
+        name: nginx 
+        state: restarted
